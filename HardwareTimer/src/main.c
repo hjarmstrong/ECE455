@@ -64,6 +64,8 @@ void displayTime(unsigned char sec, int min, char *s)
 	}
 	
 	s[si] = '\0';
+	
+	// Somewhere arround (4,6) is somewhat centered...
 	GLCD_DisplayString(0, 0, 1, (unsigned char *)s);
 }
 
@@ -84,5 +86,4 @@ int main(void)
 	{
 		displayTime(g_timer_seconds, g_timer_minutes, time);
 	}
-	
 }

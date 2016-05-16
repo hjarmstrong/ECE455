@@ -17,9 +17,10 @@ void delay(int ms)
 
 void TIMER0_IRQHandler(void) 
 {
-	g_timer_count++;
 	/* ack interrupt, see section  21.6.1 on pg 493 of LPC17XX_UM */
   LPC_TIM0->IR = 1;
+	
+	g_timer_count++;
 }
 
 
@@ -34,7 +35,10 @@ void timerInit(void)
      * TC (Timer Counter) toggles b/w 0 and 1 every 12500 PCLKs
      * see MR setting below 
      */
-    LPC_TIM0->PR = 24999; // prob should be 12499, but it appears my PLL is running at 800 Mhz for some reason => CCL is 200 => PCL is 50
+	  
+	  LPC_TIM0->TC = 1;
+	
+    LPC_TIM0->PR = 12499; // prob should be 12499, but it appears my PLL is running at 800 Mhz for some reason => CCL is 200 => PCL is 50
 	// I'm comming arround on this number... if our frequency is 25 million cycles per second, then we should hit one second in 25M increments, or one ms in 25M/1000 = 25000 increments.....
 	// So was Irene's old sysem every half MS... where does the 10^-6 come in?????
 

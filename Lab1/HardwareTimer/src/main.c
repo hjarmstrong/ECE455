@@ -64,34 +64,26 @@ void displayTime(unsigned char sec, int min, char *s)
 	}
 	
 	s[si] = '\0';
+	
+	// Somewhere arround (4,6) is somewhat centered...
 	GLCD_DisplayString(0, 0, 1, (unsigned char *)s);
 }
 
 int main(void)
 {
   SystemInit();
-	
 	__disable_irq();
 	GLCD_Init();
+  timerInit();	
 	__enable_irq();
 	
 	GLCD_Clear(White);
 			
-	unsigned char sec = 0;
-	
-	int min = 0;
-	
 	char time[] = "XXXXXXX:XX";
 	
 	// This will overflow after ~69000 days
 	while(1)
 	{
-		displayTime(sec, min, time);
-		delay(1000);
-		if(++sec == 60)
-		{
-			min++;
-			sec = 0;
-		}
+		displayTime(g_timer_seconds, g_timer_minutes, time);
 	}
 }

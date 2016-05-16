@@ -74,13 +74,14 @@ int main(void)
 	GLCD_Init();
   timerInit();	
 	__enable_irq();
+	
+	GLCD_Clear(White);
 			
 	char time[] = "XXXXXXX:XX";
 	
 	// This will overflow after ~69000 days
 	while(1)
 	{
-		//GLCD_Clear(White);
 		displayTime(g_timer_seconds, g_timer_minutes, time);
 	}
 	

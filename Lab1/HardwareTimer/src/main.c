@@ -2,15 +2,27 @@
 #include "System/GLCD.h"
 #include "timer.h"
 
+#define MAX_BUFFER_DIGITS 7
+
+/*
+   A function to display the time in the 
+	 format, minutes:seconds, which requires
+	 a buffer large enough to store the output
+	 string to be passed in.
+*/
 void displayTime(unsigned char sec, int min, char *s)
 {
 	if(sec > 60)
 	{
-		GLCD_DisplayString(0, 0, 1, "Bad Seconds");
+		GLCD_DisplayString(0, 0, 1, "Invalid Input");
 		while(1) {}
 	}
 	
-	int i = 6;
+	// Digits are retrieved in reverse order, i tracks the floor
+	// of the used digits. Si is the string buffers index, tracking
+	// the location within the buffer.
+	
+	int i = MAX_BUFFER_DIGITS - 1;
 	int si = 0;
 	int digits[8] = {0};
 	
@@ -20,7 +32,7 @@ void displayTime(unsigned char sec, int min, char *s)
 		min /= 10;
 	}
 	
-	for(i++; i < 7; i++)
+	for(i++; i < MAX_BUFFER_DIGITS; i++)
 	{
 		  s[si++] = '0' + digits[i];
 	}
@@ -32,7 +44,7 @@ void displayTime(unsigned char sec, int min, char *s)
 	}
 	
 	s[si++] = ':';
-	for(int j = 0; j < 7; j++)
+	for(int j = 0; j < MAX_BUFFER_DIGITS; j++)
 	{
 		digits[j] = 0;
 	}
@@ -47,12 +59,12 @@ void displayTime(unsigned char sec, int min, char *s)
 	
 	int oldsi = si;
 	
-	if((i + 1) == (7-1))
+	if((i + 1) == (MAX_BUFFER_DIGITS-1))
 	{
      s[si++] = '0';
 	}
 	
-	for(i++; i < 7; i++)
+	for(i++; i < MAX_BUFFER_DIGITS; i++)
 	{
     s[si++] = '0' + digits[i];
 	}
@@ -64,8 +76,6 @@ void displayTime(unsigned char sec, int min, char *s)
 	}
 	
 	s[si] = '\0';
-	
-	// Somewhere arround (4,6) is somewhat centered...
 	GLCD_DisplayString(0, 0, 1, (unsigned char *)s);
 }
 
@@ -81,7 +91,7 @@ int main(void)
 			
 	char time[] = "XXXXXXX:XX";
 	
-	// This will overflow after ~69000 days
+	// The time will exceed the buffer after approximately 6000 days
 	while(1)
 	{
 		displayTime(g_timer_seconds, g_timer_minutes, time);

@@ -1,5 +1,9 @@
 #include "states.h" 
 
+// Global Varibles
+struct state morse;
+struct state input;
+
 void setTransition(struct state me, INPUT_TYPE *val, STATE_SIZE_T from, STATE_SIZE_T to)
 {
 	for(int i = 0; ; i++)

@@ -9,24 +9,24 @@ int main(void)
   SystemInit();
 	GLCD_Init();
 	
-
-	
-	createFSM(morse, NUM_MORSE_STATES, Morse_Start);
-	setTransition(morse, ".", Morse_Start, Dot);
-	setTransition(morse, "-", Dot, DotDash);
-	setTransition(morse, "-", DotDash, DotDashDash);
-	setTransition(morse, ".", DotDashDash, DotDashDashDot);
-	setTransition(morse, "-", DotDashDashDot, DotDashDashDotDash);
-	setTransition(morse, ".", DotDashDashDotDash, DotDashDashDotDashDot);
-	setTransition(morse, ".", DotDashDashDotDashDot, DotDashDashDotDashDotDot);
-	
-	createFSM(input, NUM_INPUT_STATES, Input_Start);
-	setTransition(input, "p", Input_Start, InProgress);
-	setTransition(input, "t", InProgress, OutputDot);
-	setTransition(input, "p", InProgress, OutputDash);
-
 	GLCD_Clear(White);
 	GLCD_DisplayString(0, 0, 1, "Hello World");
+
+	
+	createFSM(&morse, NUM_MORSE_STATES, Morse_Start);
+	setTransition(&morse, ".", Morse_Start, Dot);
+	setTransition(&morse, "-", Dot, DotDash);
+	setTransition(&morse, "-", DotDash, DotDashDash);
+	setTransition(&morse, ".", DotDashDash, DotDashDashDot);
+	setTransition(&morse, "-", DotDashDashDot, DotDashDashDotDash);
+	setTransition(&morse, ".", DotDashDashDotDash, DotDashDashDotDashDot);
+	setTransition(&morse, ".", DotDashDashDotDashDot, DotDashDashDotDashDotDot);
+	
+	createFSM(&input, NUM_INPUT_STATES, Input_Start);
+	setTransition(&input, "p", Input_Start, InProgress);
+	setTransition(&input, "t", InProgress, OutputDot);
+	setTransition(&input, "p", InProgress, OutputDash);
+
 	
 	__disable_irq();
 	timerInit();
@@ -42,28 +42,30 @@ int main(void)
 		else if(morse.currState == Morse_NUL)
 		{
 			// We recieved something invalid, start over
-      resetFSM(morse);
+      resetFSM(&morse);
 		}
 		
 		if(input.currState == OutputDot)
 		{
-			transition(morse, '.');
+			GLCD_DisplayString(0, 0, 1, "Dot");
+			transition(&morse, '.');
 			
 			// Make sure we always keep track of when it might
       // be the start of the correct pattern.
 			if(morse.currState == Morse_NUL)
 		  {
-        resetFSM(morse);
-				transition(morse, '.');
+        resetFSM(&morse);
+				transition(&morse, '.');
 		  }
 			
-			resetFSM(input);
+			resetFSM(&input);
 		}
 		
 		if(input.currState == OutputDash)
 		{
-			transition(morse, '-');
-			resetFSM(input);
+			GLCD_DisplayString(0, 0, 1, "Dash");
+			transition(&morse, '-');
+			resetFSM(&input);
 		}
   }
 }

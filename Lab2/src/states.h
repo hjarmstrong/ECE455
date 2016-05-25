@@ -16,11 +16,11 @@ struct state
 	STATE_SIZE_T currState;
 };
 
-void createFSM(struct state me, STATE_SIZE_T numStates, STATE_SIZE_T initialState);
-void resetFSM(struct state me);
-void setTransition(struct state me, INPUT_TYPE *val, STATE_SIZE_T from, STATE_SIZE_T to);
-STATE_SIZE_T transition(struct state me, INPUT_TYPE val); // Returns state switched to... NULL == BAD
-int isNull(struct state me);
+void createFSM(struct state *me, STATE_SIZE_T numStates, STATE_SIZE_T initialState);
+void resetFSM(struct state *me);
+void setTransition(struct state *me, INPUT_TYPE *val, STATE_SIZE_T from, STATE_SIZE_T to);
+STATE_SIZE_T transition(struct state *me, INPUT_TYPE val); // Returns state switched to... NULL == BAD
+int isNull(struct state *me);
 
 extern struct state morse;
 extern struct state input;

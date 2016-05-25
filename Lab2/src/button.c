@@ -8,7 +8,7 @@ void EINT3_IRQHandler(void)
 	
 	__disable_irq();
 	
-	transition(input, 'p');
+	transition(&input, 'p');
 	
 	// If the timer is not already on, turn it on
 	if(!(LPC_TIM0->TCR & 1))

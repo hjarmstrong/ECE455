@@ -7,13 +7,13 @@ void TIMER0_IRQHandler(void)
   LPC_TIM0->IR |= 1;
 	
 	__disable_irq();
-	LPC_TIM0->TCR = 3;
+	LPC_TIM0->TCR = (1<<1);
 
-	transition(input, 't');
+	transition(&input, 't');
 	if(input.currState == Input_NUL)
   {
     // It was a dash
-    resetFSM(input);
+    resetFSM(&input);
   }
 	
 	// The Timer is no longer required, disable it and reset the reset
@@ -33,7 +33,8 @@ void timerInit(void)
   // Timer must count half of one second, which at 25Mhz, is: 
   // (25 - 1) M /2 = 12499999 prescale ticks. because 1 tick
   // occurs when TC ticks.
-  LPC_TIM0->PR = 0x20;
+  LPC_TIM0->PR = 12499999;
+	//LPC_TIM0->PR = 0x21;
 
   LPC_TIM0->MR0 = 1;
   

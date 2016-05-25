@@ -406,6 +406,11 @@
               <FileType>1</FileType>
               <FilePath>.\src\hardwaretimer.c</FilePath>
             </File>
+            <File>
+              <FileName>button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\button.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

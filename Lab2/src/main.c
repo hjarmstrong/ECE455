@@ -1,12 +1,15 @@
 #include <lpc17xx.h>
 #include "System/GLCD.h"
 #include "states.h" 
-
+#include "timer.h"
+#include "button.h"
 
 int main(void)
 {
   SystemInit();
 	GLCD_Init();
+	
+
 	
 	createFSM(morse, NUM_MORSE_STATES, Morse_Start);
 	setTransition(morse, ".", Morse_Start, Dot);
@@ -25,6 +28,11 @@ int main(void)
 	GLCD_Clear(White);
 	GLCD_DisplayString(0, 0, 1, "Hello World");
 	
+	__disable_irq();
+	timerInit();
+	buttonInit();
+	__enable_irq();
+	
 	while(1)
 	{
 		if(morse.currState == DotDashDashDotDashDotDot)
@@ -40,6 +48,15 @@ int main(void)
 		if(input.currState == OutputDot)
 		{
 			transition(morse, '.');
+			
+			// Make sure we always keep track of when it might
+      // be the start of the correct pattern.
+			if(morse.currState == Morse_NUL)
+		  {
+        resetFSM(morse);
+				transition(morse, '.');
+		  }
+			
 			resetFSM(input);
 		}
 		

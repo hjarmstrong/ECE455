@@ -1,28 +1,30 @@
 #include <lpc17xx.h>
 #include "states.h" 
 
-int g_timer_seconds;
-int g_timer_minutes;
-
 void TIMER0_IRQHandler(void) 
 {	
 	// Acknowledge the Interupt
   LPC_TIM0->IR |= 1;
 	
-	if(++g_timer_seconds == 60)
-	{
-		g_timer_minutes++;
-		g_timer_seconds = 0;
-	}
+	__disable_irq();
+	LPC_TIM0->TCR = 3;
+
+	transition(input, 't');
+	if(input.currState == Input_NUL)
+  {
+    // It was a dash
+    resetFSM(input);
+  }
+	
+	// The Timer is no longer required, disable it and reset the reset
+	LPC_TIM0->TCR = 0;
+	
+	__enable_irq();
 }
 
 
 void timerInit(void)
-{
-  g_timer_seconds = 0;
-	  
-  g_timer_minutes = 0;
-	
+{	
   // Initially, the clock goes from 0 -> 1 and interupts, we want
 	// it to start as 1 and go from 1 -> 0 -> 1 and then interupt/
   LPC_TIM0->TC = 1;
@@ -41,5 +43,5 @@ void timerInit(void)
   NVIC_EnableIRQ(TIMER0_IRQn);
 
   // Finally, we enable the Timer
-  LPC_TIM0->TCR = 1;
+  // LPC_TIM0->TCR = 1;
 }

@@ -10,7 +10,6 @@ int main(void)
 	GLCD_Init();
 	
 	GLCD_Clear(White);
-	GLCD_DisplayString(0, 0, 1, "Hello World");
 
 	
 	createFSM(&morse, NUM_MORSE_STATES, Morse_Start);
@@ -25,7 +24,16 @@ int main(void)
 	createFSM(&input, NUM_INPUT_STATES, Input_Start);
 	setTransition(&input, "p", Input_Start, InProgress);
 	setTransition(&input, "t", InProgress, OutputDot);
+	
+	// Erronious Timer triggers
+	setTransition(&input, "t", Input_Start, Input_Start);
+	
+	// For now ignore rapid presses, just assume one dot
+	setTransition(&input, "tp", OutputDash, OutputDash);
+	setTransition(&input, "p", OutputDot, OutputDot);
+	
 	setTransition(&input, "p", InProgress, OutputDash);
+	
 
 	
 	__disable_irq();
@@ -38,6 +46,7 @@ int main(void)
 		if(morse.currState == DotDashDashDotDashDotDot)
 		{
 			GLCD_DisplayString(0, 0, 1, "Correct");
+			while(1) {}
 		}
 		else if(morse.currState == Morse_NUL)
 		{
@@ -47,7 +56,7 @@ int main(void)
 		
 		if(input.currState == OutputDot)
 		{
-			GLCD_DisplayString(0, 0, 1, "Dot");
+			GLCD_DisplayString(3, 0, 1, "Dot");
 			transition(&morse, '.');
 			
 			// Make sure we always keep track of when it might
@@ -63,7 +72,7 @@ int main(void)
 		
 		if(input.currState == OutputDash)
 		{
-			GLCD_DisplayString(0, 0, 1, "Dash");
+			GLCD_DisplayString(3, 0, 1, "Dash");
 			transition(&morse, '-');
 			resetFSM(&input);
 		}

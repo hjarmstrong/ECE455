@@ -43,9 +43,11 @@ enum Input
 {
 	Input_NUL,
 	Input_Start,
+	Debounce,
 	InProgress,
-	OutputDot,
-	OutputDash,
+	IsDash,
+	DashDebounce,
+	DotDebounce,
 	NUM_INPUT_STATES
 };
 

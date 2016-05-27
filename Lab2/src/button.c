@@ -1,6 +1,7 @@
 #include <lpc17xx.h>
 #include "states.h"
 #include "System/LCDAssert.h"
+#include "timer.h"
 
 
 void EINT3_IRQHandler(void) 
@@ -13,10 +14,10 @@ void EINT3_IRQHandler(void)
 	transition(&input, 'p');
 	
 	// Turn on the timer to check for dot
-	if(input.currState == InProgress)
+	if((input.currState == Debounce) || (input.currState == DotDebounce) || (input.currState == DashDebounce))
 	{
-    LCD_ASSERT( !(LPC_TIM0->TCR & 1) ) ;
-    LPC_TIM0->TCR = 1;
+    // LCD_ASSERT(!(LPC_TIM0->TCR & 1));
+    timerInit(4000);
 	}
 	else
 	{
@@ -34,6 +35,7 @@ void buttonInit(void)
 	LPC_GPIO2->FIODIR &= ~(1<<10);
 	
 	LPC_GPIOINT->IO2IntEnF |= (1<<10);
+	LPC_GPIOINT->IO2IntEnR |= (1<<10);
 	NVIC_EnableIRQ(EINT3_IRQn);
 }
 

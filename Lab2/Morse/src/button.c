@@ -17,7 +17,7 @@ void EINT3_IRQHandler(void)
 	//if((input.currState == Debounce) || (input.currState == DotDebounce) || (input.currState == DashDebounce))
 	//{
     // LCD_ASSERT(!(LPC_TIM0->TCR & 1));
-    timerInit(4000);
+    timerInit(125000);
 	//}
 	//else
 	//{

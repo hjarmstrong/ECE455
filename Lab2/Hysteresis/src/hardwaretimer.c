@@ -20,14 +20,14 @@ void TIMER0_IRQHandler(void)
 	else if (input.currState == DotDebounce)
 	{
 		// Assert button is high
-		GLCD_DisplayString(3, 0, 1, "Dot");
-		transition(&morse, '.');
+		//GLCD_DisplayString(3, 0, 1, "Dot");
+		//transition(&morse, '.');
 	}
 	else if (input.currState == DashDebounce)
 	{
 		// Assert button is high
-    GLCD_DisplayString(3, 0, 1, "Dash");
-    transition(&morse, '-');
+   // GLCD_DisplayString(3, 0, 1, "Dash");
+    //transition(&morse, '-');
 	}
 
 	transition(&input, 't');

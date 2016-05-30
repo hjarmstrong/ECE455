@@ -13,17 +13,8 @@ void EINT3_IRQHandler(void)
 	
 	transition(&input, 'p');
 	
-	// Turn on the timer to check for dot
-	//if((input.currState == Debounce) || (input.currState == DotDebounce) || (input.currState == DashDebounce))
-	//{
-    // LCD_ASSERT(!(LPC_TIM0->TCR & 1));
-    timerInit(4000);
-	//}
-	//else
-	//{
-	//	LPC_TIM0->TCR = (1<<1); // reset
-	//	LPC_TIM0->TCR = 0; // stop
-	//}
+	// Start Debounce Timer
+	timerInit(4000);
 	
 	__enable_irq();
 

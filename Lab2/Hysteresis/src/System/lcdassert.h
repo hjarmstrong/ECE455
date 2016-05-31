@@ -20,6 +20,7 @@
         if (!(cond)) \
         { \
             GLCD_DisplayString(0, 0, 1, __FILE__ STRINGIZE(__LINE__) ); \
+					  __disable_irq(); \
             while(1); \
         } \
     } while(0)

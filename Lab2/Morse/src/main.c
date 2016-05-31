@@ -12,7 +12,6 @@ int main(void)
 	
 	GLCD_Clear(White);
 
-	
 	createFSM(&morse, NUM_MORSE_STATES, Morse_Start);
 	setTransition(&morse, ".", Morse_Start, Dot);
 	setTransition(&morse, "-", Morse_Start, Morse_Start);
@@ -39,19 +38,19 @@ int main(void)
 	setTransition(&morse, ".", DotDashDashDotDashDotDot, DotDashDashDotDashDotDot);
 	setTransition(&morse, "-", DotDashDashDotDashDotDot, DotDashDashDotDashDotDot);
 	
-	createFSM(&input, NUM_INPUT_STATES, Input_Start); // If statments:
-	setTransition(&input, "p", Input_Start, Debounce); // In button ISR, (send p, if(state == debounce || DotDebounce || DashDebounce) {set debounce timer}
-	setTransition(&input, "p", Debounce, Debounce);  // In button ISR, (send p, if(state == debounce) {set debounce timer})
-	setTransition(&input, "t", Debounce, InProgress); // In timer ISR, (if(state == debounce) {disable debounce timer, start dash timer}, send t)
+	createFSM(&input, NUM_INPUT_STATES, Input_Start); 
+	setTransition(&input, "p", Input_Start, Debounce);
+	setTransition(&input, "p", Debounce, Debounce);
+	setTransition(&input, "t", Debounce, InProgress);
 	
-	setTransition(&input, "p", InProgress, DotDebounce); // In button ISR set debounce timer agian, just like above
+	setTransition(&input, "p", InProgress, DotDebounce);
 	setTransition(&input, "p", DotDebounce, DotDebounce);
-	setTransition(&input, "t", DotDebounce, Input_Start); //In timer ISR
+	setTransition(&input, "t", DotDebounce, Input_Start);
 	
 	setTransition(&input, "t", InProgress, IsDash);
 	setTransition(&input, "p", IsDash, DashDebounce);
 	setTransition(&input, "p", DashDebounce, DashDebounce);
-	setTransition(&input, "t", DashDebounce, Input_Start); //In timer ISR (state == dash debounce){send dash}, send t)
+	setTransition(&input, "t", DashDebounce, Input_Start);
 
 		
 	__disable_irq();
@@ -63,10 +62,9 @@ int main(void)
 	{
 		if(morse.currState == DotDashDashDotDashDotDot)
 		{
-			GLCD_DisplayString(0, 0, 1, "Correct");
+			GLCD_Clear(White);
+			GLCD_DisplayString(4, 0, 1, "Correct");
 			return 0;
-			__disable_irq();
-			while(1) {}
 		}
 		else if((morse.currState == Morse_NUL) || (input.currState == Input_NUL))
 		{

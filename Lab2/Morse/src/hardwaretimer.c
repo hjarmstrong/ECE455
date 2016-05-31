@@ -1,5 +1,6 @@
 #include <lpc17xx.h>
 #include "System/GLCD.h"
+#include "displaystate.h"
 #include "states.h" 
 #include "timer.h"
 
@@ -10,7 +11,8 @@ void TIMER0_IRQHandler(void)
 	
 	__disable_irq();
 	
-	LPC_TIM0->TCR = 0; // Diable Timer
+	// Diable The Timer
+	LPC_TIM0->TCR = 0; 
 
 	if(input.currState == Debounce)
 	{
@@ -20,13 +22,13 @@ void TIMER0_IRQHandler(void)
 	else if (input.currState == DotDebounce)
 	{
 		// Assert button is high
-		GLCD_DisplayString(3, 0, 1, "Dot");
+		DisplayState("Dot ");
 		transition(&morse, '.');
 	}
 	else if (input.currState == DashDebounce)
 	{
 		// Assert button is high
-    GLCD_DisplayString(3, 0, 1, "Dash");
+    DisplayState("Dash");
     transition(&morse, '-');
 	}
 

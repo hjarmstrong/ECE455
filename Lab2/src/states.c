@@ -36,7 +36,7 @@ void createFSM(struct state *me, STATE_SIZE_T numStates, STATE_SIZE_T initialSta
 
 void resetFSM(struct state *me)
 {
-		me->currState = me->initialState;
+	me->currState = me->initialState;
 }
 
 STATE_SIZE_T transition(struct state *me, INPUT_TYPE val)

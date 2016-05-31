@@ -26,6 +26,7 @@ int main(void)
 	setTransition(&input, "p", Input_Start, Debounce); // In button ISR, (send p, if(state == debounce || DotDebounce || DashDebounce) {set debounce timer}
 	setTransition(&input, "p", Debounce, Debounce);  // In button ISR, (send p, if(state == debounce) {set debounce timer})
 	setTransition(&input, "t", Debounce, InProgress); // In timer ISR, (if(state == debounce) {disable debounce timer, start dash timer}, send t)
+	
 	setTransition(&input, "p", InProgress, DotDebounce); // In button ISR set debounce timer agian, just like above
 	setTransition(&input, "p", DotDebounce, DotDebounce);
 	setTransition(&input, "t", DotDebounce, Input_Start); //In timer ISR

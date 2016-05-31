@@ -3,7 +3,6 @@
 #include "System/LCDAssert.h"
 #include "timer.h"
 
-
 void EINT3_IRQHandler(void) 
 {
 	// Acknowledge the Interupt
@@ -13,18 +12,10 @@ void EINT3_IRQHandler(void)
 	
 	transition(&input, 'p');
 	
-	// Turn on the timer to check for dot
-	if((input.currState == Debounce) || (input.currState == DotDebounce) || (input.currState == DashDebounce))
-	{
-    // LCD_ASSERT(!(LPC_TIM0->TCR & 1));
-    timerInit(4000);
-	}
-	else
-	{
-		LPC_TIM0->TCR = (1<<1); // reset
-		LPC_TIM0->TCR = 0; // stop
-	}
-	
+	// Turn on the debounceing timer after every press
+	// LCD_ASSERT(!(LPC_TIM0->TCR & 1));
+	timerInit(4000);
+		
 	__enable_irq();
 
 }

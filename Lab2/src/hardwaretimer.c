@@ -10,7 +10,7 @@ void TIMER0_IRQHandler(void)
 	
 	__disable_irq();
 	
-	LPC_TIM0->TCR = 0; // Diable Debounce timer
+	LPC_TIM0->TCR = 0; // Diable Timer
 
 	if(input.currState == Debounce)
 	{

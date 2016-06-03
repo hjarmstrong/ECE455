@@ -4,6 +4,7 @@
 #include "states.h" 
 #include "timer.h"
 #include "button.h"
+#include "adc.h"
 
 int main(void)
 {
@@ -30,6 +31,7 @@ int main(void)
 	__disable_irq();
 	NVIC_EnableIRQ(TIMER0_IRQn);
 	buttonInit();
+	ADCInit();
 	__enable_irq();
 	
 	while(1)

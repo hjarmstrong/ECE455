@@ -1,7 +1,9 @@
 #include <lpc17xx.h>
+#include <stdio.h>
 #include "System/GLCD.h"
 #include "states.h" 
 #include "timer.h"
+#include "adc.h"
 
 void TIMER0_IRQHandler(void) 
 {	
@@ -20,12 +22,19 @@ void TIMER0_IRQHandler(void)
 	else if (input.currState == DotDebounce)
 	{
 		// Assert button is high
-		//GLCD_DisplayString(3, 0, 1, "Dot");
+		selectedTemp++;
+		unsigned char s[] = "bigenough";
+		sprintf((char *)s, "%05d", realTemp);
+		GLCD_DisplayString(3, 3, 1, s);
 		//transition(&morse, '.');
 	}
 	else if (input.currState == DashDebounce)
 	{
 		// Assert button is high
+		selectedTemp--;
+		unsigned char s[] = "bigenough";
+		sprintf((char *)s, "%02d", selectedTemp);
+		GLCD_DisplayString(3, 3, 1, s);
    // GLCD_DisplayString(3, 0, 1, "Dash");
     //transition(&morse, '-');
 	}

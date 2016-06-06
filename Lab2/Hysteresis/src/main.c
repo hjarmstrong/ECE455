@@ -27,6 +27,7 @@ int main(void)
 	setTransition(&input, "p", DashDebounce, DashDebounce);
 	setTransition(&input, "t", DashDebounce, Input_Start); //In timer ISR (state == dash debounce){send dash}, send t)
 
+	createFSM(&furnace, NUM_FURNACE_STATES, FurnaceOff);
 		
 	__disable_irq();
 	NVIC_EnableIRQ(TIMER0_IRQn);

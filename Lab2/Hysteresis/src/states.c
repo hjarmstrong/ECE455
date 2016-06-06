@@ -2,6 +2,7 @@
 
 // Global Varibles
 struct state input;
+struct state furnace;
 
 void setTransition(struct state *me, INPUT_TYPE *val, STATE_SIZE_T from, STATE_SIZE_T to)
 {

@@ -23,6 +23,7 @@ STATE_SIZE_T transition(struct state *me, INPUT_TYPE val); // Returns state swit
 int isNull(struct state *me);
 
 extern struct state input;
+extern struct state furnace;
 
 enum Input
 {
@@ -34,6 +35,14 @@ enum Input
 	DashDebounce,
 	DotDebounce,
 	NUM_INPUT_STATES
+};
+
+enum Furnace
+{
+	Furnace_NUL,
+	FurnaceOn,
+	FurnaceOff,
+	NUM_FURNACE_STATES
 };
 
 

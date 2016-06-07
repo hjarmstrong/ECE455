@@ -7,6 +7,7 @@
 
 void TIMER0_IRQHandler(void) 
 {	
+	unsigned char s[] = "-XX";
 	// Acknowledge the Interupt
   LPC_TIM0->IR |= 1;
 	
@@ -21,22 +22,15 @@ void TIMER0_IRQHandler(void)
 	}
 	else if (input.currState == DotDebounce)
 	{
-		// Assert button is high
 		selectedTemp++;
-		unsigned char s[] = "bigenough";
-		sprintf((char *)s, "%05d", realTemp);
+		sprintf((char *)s, "%03d", selectedTemp);
 		GLCD_DisplayString(3, 3, 1, s);
-		//transition(&morse, '.');
 	}
 	else if (input.currState == DashDebounce)
 	{
-		// Assert button is high
 		selectedTemp--;
-		unsigned char s[] = "bigenough";
-		sprintf((char *)s, "%02d", selectedTemp);
+		sprintf((char *)s, "%03d", selectedTemp);
 		GLCD_DisplayString(3, 3, 1, s);
-   // GLCD_DisplayString(3, 0, 1, "Dash");
-    //transition(&morse, '-');
 	}
 
 	transition(&input, 't');

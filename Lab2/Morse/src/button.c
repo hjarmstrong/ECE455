@@ -12,18 +12,18 @@ void EINT3_IRQHandler(void)
 	
 	transition(&input, 'p');
 	
-	// Turn on the debounceing timer after every press
-	// After 5ms with no interuptions we assume the GPIO
-	// is stable.
+	// Turn on the debounceing timer after every edge
+	// After 5ms with a constant level we assume the 
+	// pin is stable.
 	timerInit(125000);
 		
 	__enable_irq();
-
 }
 
 void buttonInit(void)
 {
-	// Set the INT0 button's pin to input GPIO
+	// Set the INT0 button's pin to GPIO, and configure it
+	// as an input.
 	LPC_PINCON->PINSEL4 &= ~(3<<20);
 	LPC_GPIO2->FIODIR &= ~(1<<10);
 	

@@ -11,6 +11,8 @@ int main(void)
 	GLCD_Init();
 	
 	GLCD_Clear(White);
+	
+	// ---- Morse Code FSM ----
 
 	createFSM(&morse, NUM_MORSE_STATES, Morse_Start);
 	setTransition(&morse, ".", Morse_Start, Dot);
@@ -38,6 +40,8 @@ int main(void)
 	setTransition(&morse, ".", DotDashDashDotDashDotDot, DotDashDashDotDashDotDot);
 	setTransition(&morse, "-", DotDashDashDotDashDotDot, DotDashDashDotDashDotDot);
 	
+	// ---- Button Management FSM ----
+ 
 	createFSM(&input, NUM_INPUT_STATES, Input_Start); 
 	setTransition(&input, "p", Input_Start, Debounce);
 	setTransition(&input, "p", Debounce, Debounce);
@@ -51,6 +55,7 @@ int main(void)
 	setTransition(&input, "p", IsDash, DashDebounce);
 	setTransition(&input, "p", DashDebounce, DashDebounce);
 	setTransition(&input, "t", DashDebounce, Input_Start);
+	// Where p is a press or release of INT0, and t is a timer interupt
 
 		
 	__disable_irq();
@@ -71,6 +76,5 @@ int main(void)
 			//Something was wrong with the program, or the assumptions leading up to this point
 			LCD_ASSERT(0);
 		}
-		
   }
 }

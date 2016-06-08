@@ -16,18 +16,16 @@ void TIMER0_IRQHandler(void)
 
 	if(input.currState == Debounce)
 	{
-		// Assert button is low (high logically but pressing it makes it go low)
-		timerInit(12599999); // start dash timer
+		// start dash timer for 0.504 seconds
+		timerInit(12599999);
 	}
 	else if (input.currState == DotDebounce)
 	{
-		// Assert button is high
 		DisplayState("Dot ");
 		transition(&morse, '.');
 	}
 	else if (input.currState == DashDebounce)
 	{
-		// Assert button is high
     DisplayState("Dash");
     transition(&morse, '-');
 	}
@@ -41,21 +39,19 @@ void TIMER0_IRQHandler(void)
 
 void timerInit(int cycles)
 {	
+	// Reset The Timer
   LPC_TIM0->TCR = (1<<1);
   
-	// The TC ticks: 1 -> 0 -> 1, then interupts, so the prescale 
-  // Timer must count half of one second, which at 25Mhz, is: 
-  // (25 - 1) M /2 = 12499999 prescale ticks. because 1 tick
-  // occurs when TC ticks.
+	// The PC counts cycles, and ticks the TC when
+	// it reache sthe values stored in PR
   LPC_TIM0->PR = cycles;
-	//LPC_TIM0->PR = 0x21;
 
   LPC_TIM0->MR0 = 1;
   
-	// Set TC to 0 when it reaches 1, and interupt when TC reaches MR0
+	// Set TC to 0 when it reaches 1, and interupt
+	// when TC reaches MR0
   LPC_TIM0->MCR = 1 | (1 << 1);
 
-
-  // Finally, we enable the Timer
+  // Finally, we enable the Timer, and clear the reset bit
   LPC_TIM0->TCR = 1;
 }

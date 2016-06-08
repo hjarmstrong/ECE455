@@ -29,7 +29,6 @@ void createFSM(struct state *me, STATE_SIZE_T numStates, STATE_SIZE_T initialSta
 		{
 			transString[0] = j;
 			setTransition(me, transString, i, 0); // Initilize all states to NULL
-			// me.transition[i][j] = 0;
 		}
   }	
 }

@@ -14,7 +14,7 @@ void EINT3_IRQHandler(void)
 	transition(&input, 'p');
 	
 	// Start Debounce Timer
-	timerInit(4000);
+	timerInit(125000);
 	
 	__enable_irq();
 

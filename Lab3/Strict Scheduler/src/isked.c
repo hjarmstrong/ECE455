@@ -30,17 +30,9 @@ void timerExpired(void)
 	enabeled = 1;
 	
 	// clear interupts that occured while we waited.
-	char s[] = "xxxxxx";
-	int zero = NVIC_GetPendingIRQ(EINT3_IRQn);
-	int ret = sprintf(s, "%d ", zero);
-	
+	LPC_GPIOINT->IO2IntClr |= (1<<10);
 	NVIC_ClearPendingIRQ(EINT3_IRQn);
-	LPC_SC->EXTINT = 1;
+	
+	// And turn the Interupt back on
 	NVIC_EnableIRQ(EINT3_IRQn);
-	zero = NVIC_GetPendingIRQ(EINT3_IRQn);
-
-	sprintf(s+ret - 1, " %d", zero);
-	GLCD_DisplayString(0, 0, 1, "               ");
-	GLCD_DisplayString(0, 0, 1, s);
-	//buttonInit();
 }

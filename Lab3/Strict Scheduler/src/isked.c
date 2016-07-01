@@ -13,7 +13,7 @@ int enabeled = 1;
 
 void notifyScheduler(void)
 {
-	GLCD_DisplayString(0, 0, 1, "InteruptsOFF");
+	GLCD_DisplayString(0, 0, 1, "Interupts Off!");
 	NVIC_DisableIRQ(EINT3_IRQn);
 	enabeled = 0;
 	timerInit(INTER_ARIVAL_TIME);
@@ -26,7 +26,7 @@ void timerExpired(void)
 		LCD_ASSERT(0);
 	}
 	
-	GLCD_DisplayString(0, 0, 1, "Interupts On");
+	GLCD_DisplayString(0, 0, 1, "Interupts On! ");
 	enabeled = 1;
 	
 	// clear interupts that occured while we waited.

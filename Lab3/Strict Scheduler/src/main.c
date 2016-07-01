@@ -13,6 +13,7 @@ int main(void)
 
 	__disable_irq();
 	NVIC_EnableIRQ(TIMER0_IRQn);
+	
 	buttonInit();
 
 	// Initilize LEDs
@@ -22,7 +23,7 @@ int main(void)
 	
 	__enable_irq();
 	
-	GLCD_DisplayString(0, 0, 1, "Interupts On");
+	GLCD_DisplayString(0, 0, 1, "Interupts On ");
 	
 	// ---- Button Management FSM ----
 	createFSM(&input, NUM_INPUT_STATES, Input_Start); 
@@ -37,9 +38,6 @@ int main(void)
 	
 	while(1)
 	{
-		//LCD_ASSERT(0);
-		//int japan = 7+7+8; //nop?
-		//japan /= japan;
 		if(input.currState == 0)
 		{
 			LCD_ASSERT(0);

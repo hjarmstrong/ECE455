@@ -41,7 +41,7 @@ void TIMER1_IRQHandler(void)
 	
 	count = 0;
 	
-	GLCD_DisplayString(0, 0, 1, "New Interval");
+	GLCD_DisplayString(0, 0, 1, "New Interval!           ");
 	
 	if(enabeled)
 	{
@@ -62,7 +62,7 @@ void notifyScheduler(void)
 {
 	count++;
 	
-	char s[] = "X Interupts Receieved!";
+	unsigned char s[] = "X Interupts Receieved!";
 	s[0] = count + '0';
 	GLCD_DisplayString(0, 0, 1, s);
 	
@@ -71,7 +71,7 @@ void notifyScheduler(void)
 		return;
 	}
 	
-	GLCD_DisplayString(0, 0, 1, "Burst Size Reached!");
+	GLCD_DisplayString(0, 0, 1, "Burst Size Reached!     ");
 	NVIC_DisableIRQ(EINT3_IRQn);
 	enabeled = 0;
 }

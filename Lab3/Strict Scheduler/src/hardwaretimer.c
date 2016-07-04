@@ -27,7 +27,7 @@ void TIMER0_IRQHandler(void)
 	else
 	{
 		timerExpired();
-		__enable_irq(); // Is this a good idea????
+		__enable_irq();
 		return;
 	}
 

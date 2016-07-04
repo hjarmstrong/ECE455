@@ -16,6 +16,7 @@ void notifyScheduler(void)
 	GLCD_DisplayString(0, 0, 1, "Interupts Off!");
 	NVIC_DisableIRQ(EINT3_IRQn);
 	enabeled = 0;
+	
 	timerInit(INTER_ARIVAL_TIME);
 }
 

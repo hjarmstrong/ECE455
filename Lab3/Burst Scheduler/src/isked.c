@@ -19,9 +19,8 @@ void schedulerInit(unsigned int maxArivalRate)
 	
 	// The TC ticks: 1 -> 0 -> 1, then interupts, so the prescale 
 	// Timer must count half of one second, which at 25Mhz, is: 
-	// (25 - 1) M /2 = 12499999 prescale ticks. because 1 tick
-	// occurs when TC ticks.
-	LPC_TIM1->PR = maxArivalRate;
+	// (25 - 1) M /2, because 1 tick occurs when TC ticks.
+	LPC_TIM1->PR = maxArivalRate / 2;
 
 	LPC_TIM1->MR0 = 1;
   
@@ -62,7 +61,7 @@ void notifyScheduler(void)
 {
 	count++;
 	
-	unsigned char s[] = "X Interupts Receieved!";
+	unsigned char s[] = "X Interupts Handled!";
 	s[0] = count + '0';
 	GLCD_DisplayString(0, 0, 1, s);
 	

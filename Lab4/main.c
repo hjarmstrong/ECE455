@@ -103,9 +103,16 @@ running when. */
 unsigned long ulTaskNumber[ configEXPECTED_NO_RUNNING_TASKS ];
 
 // The period and exicution time are const, and must be initilised now
-struct TaskControlBlock t1 = {1,4,1,4,NULL};
-struct TaskControlBlock t2 = {2,6,2,6,NULL};
-struct TaskControlBlock t3 = {3,8,3,8,NULL};
+
+/* Problem 1 */
+//struct TaskControlBlock t1 = {.time = 1, .period = 4};
+//struct TaskControlBlock t2 = {.time = 2, .period = 6};
+//struct TaskControlBlock t3 = {.time = 3, .period = 8};
+
+/* Problem 2 */
+struct TaskControlBlock t1 = {.time = 1, .period = 4};
+struct TaskControlBlock t2 = {.time = 2, .period = 6};
+struct TaskControlBlock t3 = {.time = 5, .period = 12};
 
 struct TaskControlBlock *TCB[3] = {&t1, &t2, &t3};
 

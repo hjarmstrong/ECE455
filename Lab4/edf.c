@@ -15,7 +15,7 @@ void schedule(void)
 	for(int i = 0; i < sizeof(TCB) / sizeof(TCB[0]); i++)
 	{
 		// New Tasks Arrive!
-		if(((time % TCB[i]->period) == 0) && init)
+		if((time % TCB[i]->period) == 0)
 		{
 			if(TCB[i]->timeRemaining != 0) // Don't miss deadlines!
 			{

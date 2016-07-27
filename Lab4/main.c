@@ -128,7 +128,7 @@ static void t1Code(void *args)
 		// I.E. no delines can change in 1 second so we are safe to "run"
 	
 		portTickType now = xTaskGetTickCount();
-		for( ; xTaskGetTickCount() - now < 1000; )
+		while(xTaskGetTickCount() - now < 1000)
 		{
 		}
 		// Invoke the Scheduler
@@ -144,7 +144,7 @@ static void t2Code(void *args)
 		// I.E. no delines can change in 1 second so we are safe to "run"
 	
 		portTickType now = xTaskGetTickCount();
-		for( ; xTaskGetTickCount() - now < 1000; )
+		while(xTaskGetTickCount() - now < 1000)
 		{
 		}
 		// Invoke the Scheduler
@@ -160,7 +160,7 @@ static void t3Code(void *args)
 		// I.E. no delines can change in 1 second so we are safe to "run"
 	
 		portTickType now = xTaskGetTickCount();
-		for( ; xTaskGetTickCount() - now < 1000; )
+		while(xTaskGetTickCount() - now < 1000)
 		{
 		}
 		// Invoke the Scheduler
